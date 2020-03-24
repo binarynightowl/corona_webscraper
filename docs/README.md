@@ -31,8 +31,8 @@ This python3 script scrapes COVID-19 data from John Hopkins University and pushe
 - The script will write to the sheet regardless, but if you would like, create headings, following this template
    ![example](https://lh3.googleusercontent.com/HhWYlcnWvP2JQzk253I11cK5FDh5uqyjNqYjdV_Ynwe-X9ft4Z7hEn39TJOtm4WqCyJo62QO2IgJyfWBSmT7fTkcm7H576Ij9JJjnxgHjZB7p4aZKXxE1mXgw8rYvD1GtQYCcqpWbr_pzWIK2XquF8lrhEAE_FUuEw1g5DTtng9DT0pXkvAhU2c2eJ_S8BduhHPfC3ImgMr5R1VzK5JgoPkrb3QJFNl1cRFVEM16Q2N0OfL13Zh-8YwqL71fl6mkAjGSxi_isub8fQtTv3J2oVn4CjanFgZTIrK32W2J9jz4VAxgrQaoQ5sECEw3V9JUMAa3pohMqllcPymaa-6uOGgSwIAuoLSMpM71oWa-EgIjk_HmhSbtmLST_BWtH7RFCnitfuRUk6d1NUptxd-rg3H28n0tnmeUWqEPAQ3wIVHtRTZ8BkiL06GDD8vsYlWPiiCwSEMLxtC-o4xxj2sNLFTUyqZPm-3aSLDkc13FTuQ0GrO9fgQeu2aw4JUlek6OKpI0AueAKzAMyCFeZU7Z7jiPTbJVXNe8mJOCMAzoh1uta7T7mXVpQsiKNkn0Jl44D6YpQun2YLZA7kjk9YCbD1QMRRsmrIvNIZFFNVixWi62FqRbgfLyscPIvtBzd_ocBJ2PDbZn9QUJQ4lg_5WVbZ75FaXvZ6FJQTFx-j2XNMOvFLWUrZG4nlYWzz6yfA=w1603-h98-no)
 - Delete all of the empty rows
-  - The script creates a new row at the end of the document and writes the new data to that, so any blank rows left before will not be written to
-Y4ddl312
+  - The script creates a new row at the end of the document and writes the new data to that, so any blank rows left 
+  at the end of the document will not be overwritten
 
 ## Run the Script
 - Open a new terminal window (or use the old one if it is still open)
