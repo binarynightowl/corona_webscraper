@@ -39,5 +39,3 @@ Y4ddl312
 - Open the previously downloaded folder (should be called ```corona_webscraper```)
 - Run ```python3 main.py```!
  
-
-<iframe src="http://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/Coronavirus_2019_nCoV_Cases/FeatureServer/1/query?where=1=1&outStatistics=[%7B%22statisticType%22:%22sum%22,%22onStatisticField%22:%22Confirmed%22,%22outStatisticFieldName%22:%22confirmed%22%7D,%7B%22statisticType%22:%22sum%22,%22onStatisticField%22:%22deaths%22,%22outStatisticFieldName%22:%22deaths%22%7D,%7B%22statisticType%22:%22sum%22,%22onStatisticField%22:%22recovered%22,%22outStatisticFieldName%22:%22recovered%22%7D]&f=pjson" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen> </iframe>
