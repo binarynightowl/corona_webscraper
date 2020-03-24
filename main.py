@@ -1,5 +1,5 @@
 import scripts.sheets as gsheets
-import json, urllib
+import json, urllib.request
 
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']  # use these APIs
 cred_file = 'client-secret.json'  # client secret file, do not make this file public!
