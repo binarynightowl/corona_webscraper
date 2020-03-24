@@ -2,6 +2,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import datetime as dt
 
+date_time = dt.datetime
+
 
 class Sheet:
 
@@ -15,9 +17,11 @@ class Sheet:
 
         document = self.client.open(self.sheet_name)
         self.sheet = document.get_worksheet(self.workbook_num)
+
         # Scan for the total number of rows and set the current row to 1 longer
         self.current_line = self.sheet.row_count
         self.row_to_write = self.current_line + 1
+
         self.get_old_data()
 
     def get_old_data(self):  # not currently  used - will be implemented later
@@ -31,10 +35,12 @@ class Sheet:
 
     def write_data(self, cases, deaths, recovered):
         active = (cases - deaths) - recovered
-        current_time = dt.datetime.now()
+        current_time = date_time.now()
+        current_time = "{}-{}-{} @ {}:{}".format(current_time.year, current_time.month, current_time.day,
+                                                 current_time.hour,
+                                                 current_time.minute)
         self.sheet.resize(self.row_to_write)
-        self.sheet.update_cell(self.row_to_write, 1,  # crappy code fix this later
-                               "{}-{}-{}".format(current_time.year, current_time.month, current_time.day))
+        self.sheet.update_cell(self.row_to_write, 1, current_time)
         self.sheet.update_cell(self.row_to_write, 2, cases)  # row, column, data to write to cell
         self.sheet.update_cell(self.row_to_write, 3, deaths)
         self.sheet.update_cell(self.row_to_write, 4, recovered)
