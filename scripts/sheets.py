@@ -1,6 +1,6 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import datetime
+import datetime as dt
 
 
 class Sheet:
@@ -9,18 +9,18 @@ class Sheet:
         # create gsheets credentials
         self.credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials, gapi_scope)
         self.sheet_name = sheet_name
-        self.workbok_num = workbook_num - 1
+        self.workbook_num = workbook_num - 1
         # create gsheets client
         self.client = gspread.authorize(self.credentials)
 
-        document = self.client.open("COVID-19-CasesOverTime")
-        self.sheet = document.get_worksheet(self.workbok_num)
-
+        document = self.client.open(self.sheet_name)
+        self.sheet = document.get_worksheet(self.workbook_num)
+        # Scan for the total number of rows and set the current row to 1 longer
+        self.current_line = self.sheet.row_count
+        self.row_to_write = self.current_line + 1
         self.get_old_data()
 
     def get_old_data(self):  # not currently  used - will be implemented later
-        # Scan for the total number of rows and set the current row to 1 longer
-        self.current_line = self.sheet.row_count
         self.old_cases = self.sheet.cell(self.current_line, 2).value
         self.old_deaths = self.sheet.cell(self.current_line, 3).value
         self.old_recovered = self.sheet.cell(self.current_line, 4).value
@@ -31,13 +31,11 @@ class Sheet:
 
     def write_data(self, cases, deaths, recovered):
         active = (cases - deaths) - recovered
-        self.row_to_write = self.current_line + 1  # crappy code fix this later
-        current_time = datetime.datetime.now()
+        current_time = dt.datetime.now()
         self.sheet.resize(self.row_to_write)
-        # there's gotta be a better way to do this but I am sleepy
         self.sheet.update_cell(self.row_to_write, 1,  # crappy code fix this later
                                "{}-{}-{}".format(current_time.year, current_time.month, current_time.day))
-        self.sheet.update_cell(self.row_to_write, 2, cases)
+        self.sheet.update_cell(self.row_to_write, 2, cases)  # row, column, data to write to cell
         self.sheet.update_cell(self.row_to_write, 3, deaths)
         self.sheet.update_cell(self.row_to_write, 4, recovered)
         self.sheet.update_cell(self.row_to_write, 5, active)
@@ -45,17 +43,16 @@ class Sheet:
         self.sheet.update_cell(self.row_to_write, 8, recovered / cases)
         self.sheet.update_cell(self.row_to_write, 9, active / cases)
 
-    def write_state_data(self, state_data):  # there's gotta be a better way to do this but I am sleepy
-        ny, wa, nj, ca, il, mi, fl, la, ma, tx, ga, co = state_data  # crappy code fix this later
-        self.sheet.update_cell(self.row_to_write, 13, ny)
-        self.sheet.update_cell(self.row_to_write, 14, wa)
-        self.sheet.update_cell(self.row_to_write, 15, nj)
-        self.sheet.update_cell(self.row_to_write, 16, ca)
-        self.sheet.update_cell(self.row_to_write, 17, il)
-        self.sheet.update_cell(self.row_to_write, 18, mi)
-        self.sheet.update_cell(self.row_to_write, 19, fl)
-        self.sheet.update_cell(self.row_to_write, 20, la)
-        self.sheet.update_cell(self.row_to_write, 21, ma)
-        self.sheet.update_cell(self.row_to_write, 22, tx)
-        self.sheet.update_cell(self.row_to_write, 23, ga)
-        self.sheet.update_cell(self.row_to_write, 24, co)
+    def write_state_data(self, state_data):
+        self.sheet.update_cell(self.row_to_write, 13, state_data['New York'])
+        self.sheet.update_cell(self.row_to_write, 14, state_data['Washington'])
+        self.sheet.update_cell(self.row_to_write, 15, state_data['New Jersey'])
+        self.sheet.update_cell(self.row_to_write, 16, state_data['California'])
+        self.sheet.update_cell(self.row_to_write, 17, state_data['Illinois'])
+        self.sheet.update_cell(self.row_to_write, 18, state_data['Michigan'])
+        self.sheet.update_cell(self.row_to_write, 19, state_data['Florida'])
+        self.sheet.update_cell(self.row_to_write, 20, state_data['Louisiana'])
+        self.sheet.update_cell(self.row_to_write, 21, state_data['Massachusetts'])
+        self.sheet.update_cell(self.row_to_write, 22, state_data['Texas'])
+        self.sheet.update_cell(self.row_to_write, 23, state_data['Georgia'])
+        self.sheet.update_cell(self.row_to_write, 24, state_data['Colorado'])
