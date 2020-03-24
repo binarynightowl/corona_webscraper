@@ -30,16 +30,15 @@ china_us_url = 'https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/servic
                '&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset' \
                '=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true' \
                '&quantizationParameters=&sqlFormat=none&f=pjson&token= '
-state_url = 'https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/1/query?where\
-    =Country_Region%3D%27US%27&objectIds=269%2C+266%2C+268%2C+254%2C+243%2C+278%2C+287%2C+247%2C+284%2C+248%2C+256%2C' \
-            '+265&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects' \
-            '&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=Province_State%2C' \
-            '++confirmed%2C+deaths%2C+recovered%2C+active&returnGeometry=false&featureEncoding=esriDefault' \
-            '&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation' \
-            '=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false' \
-            '&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=true' \
-            '&orderByFields=confirmed&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=0' \
-            '&resultRecordCount=200&returnZ=false&returnM=false&returnExceededLimitFeatures=true' \
+state_url = 'https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/1/query' \
+            '?where=Country_Region%3D%27US%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR' \
+            '=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic' \
+            '=false&outFields=Province_State%2C++confirmed%2C+deaths%2C+recovered%2C+active&returnGeometry=false' \
+            '&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR' \
+            '=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false' \
+            '&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false' \
+            '&cacheHint=true&orderByFields=confirmed&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset' \
+            '=0&resultRecordCount=200&returnZ=false&returnM=false&returnExceededLimitFeatures=true' \
             '&quantizationParameters=&sqlFormat=none&f=pjson&token='
 
 
