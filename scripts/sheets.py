@@ -6,9 +6,11 @@ import datetime
 class Sheet:
 
     def __init__(self, credentials, gapi_scope, sheet_name, workbook_num):
+        # create gsheets credentials
         self.credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials, gapi_scope)
         self.sheet_name = sheet_name
         self.workbok_num = workbook_num - 1
+        # create gsheets client
         self.client = gspread.authorize(self.credentials)
 
         document = self.client.open("COVID-19-CasesOverTime")
@@ -16,7 +18,7 @@ class Sheet:
 
         self.get_old_data()
 
-    def get_old_data(self):
+    def get_old_data(self):  # not currently  used - will be implemented later
         # Scan for the total number of rows and set the current row to 1 longer
         self.current_line = self.sheet.row_count
         self.old_cases = self.sheet.cell(self.current_line, 2).value
@@ -32,6 +34,7 @@ class Sheet:
         self.row_to_write = self.current_line + 1  # crappy code fix this later
         current_time = datetime.datetime.now()
         self.sheet.resize(self.row_to_write)
+        # there's gotta be a better way to do this but I am sleepy
         self.sheet.update_cell(self.row_to_write, 1,  # crappy code fix this later
                                "{}-{}-{}".format(current_time.year, current_time.month, current_time.day))
         self.sheet.update_cell(self.row_to_write, 2, cases)
@@ -42,7 +45,7 @@ class Sheet:
         self.sheet.update_cell(self.row_to_write, 8, recovered / cases)
         self.sheet.update_cell(self.row_to_write, 9, active / cases)
 
-    def write_state_data(self, state_data):
+    def write_state_data(self, state_data):  # there's gotta be a better way to do this but I am sleepy
         ny, wa, nj, ca, il, mi, fl, la, ma, tx, ga, co = state_data  # crappy code fix this later
         self.sheet.update_cell(self.row_to_write, 13, ny)
         self.sheet.update_cell(self.row_to_write, 14, wa)

@@ -59,7 +59,7 @@ def get_all_state_data():
     values = []
     for state in states:
         values.append(get_state_data(state))
-    return values
+    return values  # there's gotta be a better way to do this but I am sleepy
 
 
 # create a seperate sheets instance per workbook, by number
@@ -73,6 +73,7 @@ total_cases = data['features'][0]['attributes']['confirmed']
 total_deaths = data['features'][0]['attributes']['deaths']
 total_recovered = data['features'][0]['attributes']['recovered']
 
+# scrape more data using a json search query and then read the appropriate information from the json document
 data = json.loads(urllib.request.urlopen(china_us_url).read().decode())  # crappy code fix this later
 china_cases = data['features'][0]['attributes']['Confirmed']
 china_deaths = data['features'][0]['attributes']['Deaths']
