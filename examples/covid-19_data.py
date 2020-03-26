@@ -2,7 +2,7 @@
 This example shows how to get just the COVID-19 data from the John Hopkins University if you would like to use the
 data in your application for other purposes
 """
-
+import covid19_data
 import json, urllib.request
 
 # query to get the total of all the confirmed cases, deaths, and recovered cases in the world - check GitHub for more
@@ -76,3 +76,4 @@ us = [us_cases, us_deaths, us_recovered]
 texas = get_state_data("Texas")  # example:Texas - you should be able to get all 60 states/territories with this
 
 print(total, china, us, texas)
+print(covid19_data.place_holder())

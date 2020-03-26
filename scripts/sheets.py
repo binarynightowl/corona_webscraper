@@ -50,9 +50,9 @@ class Sheet:
         self.sheet.update_cell(self.row_to_write, 9, active / cases)
 
     def write_state_data(self, state_data):
-        self.sheet.update_cell(self.row_to_write, 13, state_data['New York'])
+        self.sheet.update_cell(self.row_to_write, 13, state_data['NewYork'])
         self.sheet.update_cell(self.row_to_write, 14, state_data['Washington'])
-        self.sheet.update_cell(self.row_to_write, 15, state_data['New Jersey'])
+        self.sheet.update_cell(self.row_to_write, 15, state_data['NewJersey'])
         self.sheet.update_cell(self.row_to_write, 16, state_data['California'])
         self.sheet.update_cell(self.row_to_write, 17, state_data['Illinois'])
         self.sheet.update_cell(self.row_to_write, 18, state_data['Michigan'])
