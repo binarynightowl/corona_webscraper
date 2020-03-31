@@ -58,7 +58,7 @@ class Sheet:
         self.sheet.update_cell(self.row_to_write, 18, state_data['Colorado'])
         self.sheet.update_cell(self.row_to_write, 19, state_data['Connecticut'])
         self.sheet.update_cell(self.row_to_write, 20, state_data['Delaware'])
-        self.sheet.update_cell(self.row_to_write, 21, state_data['District of Columbia']) # TODO verify
+        self.sheet.update_cell(self.row_to_write, 21, state_data['District of Columbia'])
         self.sheet.update_cell(self.row_to_write, 22, state_data['Florida'])
         self.sheet.update_cell(self.row_to_write, 23, state_data['Georgia'])
         self.sheet.update_cell(self.row_to_write, 24, state_data['Hawaii'])
