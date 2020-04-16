@@ -1,8 +1,7 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import datetime as dt
+from time import strftime
 
-date_time = dt.datetime
 
 
 class Sheet:
@@ -35,10 +34,7 @@ class Sheet:
 
     def write_data(self, cases, deaths, recovered):
         active = (cases - deaths) - recovered
-        current_time = date_time.now()
-        current_time = "{}-{}-{} @ {}:{}".format(current_time.year, current_time.month, current_time.day,
-                                                 current_time.hour,
-                                                 current_time.minute)
+        current_time = strftime("%Y-%m-%d %H:%M:%S")
         self.sheet.resize(self.row_to_write)
         self.sheet.update_cell(self.row_to_write, 1, current_time)
         self.sheet.update_cell(self.row_to_write, 2, cases)  # row, column, data to write to cell
