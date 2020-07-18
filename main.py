@@ -1,4 +1,5 @@
 import scripts.sheets as gsheets
+from covid19_data import JHU
 import covid19_data
 
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']  # use these APIs
@@ -11,41 +12,84 @@ state_data = {
 
 # get data for any state based on state name and put it in state_data (dict)
 def get_state_data(state_to_find):
-    state = covid19_data.dataByName(state_to_find)
+    state = covid19_data.dataByNameShort(state_to_find)
     state_data[state_to_find] = (state.confirmed - state.deaths - state.recovered)
 
 
 # get data for all states in a given list and store it to a dictionary
 def get_all_state_data():
-    states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado",
-              "Connecticut","Delaware","District of Columbia","Florida",
-              "Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas",
-              "Kentucky","Louisiana","Maine","Montana","Nebraska","Nevada",
-              "New Hampshire","New Jersey","New Mexico","New York",
-              "North Carolina","North Dakota","Ohio","Oklahoma","Oregon",
-              "Maryland","Massachusetts","Michigan","Minnesota","Mississippi",
-              "Missouri","Pennsylvania","Rhode Island","South Carolina",
-              "South Dakota","Tennessee","Texas","Utah","Vermont","Virginia",
-              "Washington","West Virginia","Wisconsin","Wyoming"]
+    states = {
+        'AK': 'Alaska',
+        'AL': 'Alabama',
+        'AR': 'Arkansas',
+        'AZ': 'Arizona',
+        'CA': 'California',
+        'CO': 'Colorado',
+        'CT': 'Connecticut',
+        'DC': 'DistrictofColumbia',
+        'DE': 'Delaware',
+        'FL': 'Florida',
+        'GA': 'Georgia',
+        'HI': 'Hawaii',
+        'IA': 'Iowa',
+        'ID': 'Idaho',
+        'IL': 'Illinois',
+        'IN': 'Indiana',
+        'KS': 'Kansas',
+        'KY': 'Kentucky',
+        'LA': 'Louisiana',
+        'MA': 'Massachusetts',
+        'MD': 'Maryland',
+        'ME': 'Maine',
+        'MI': 'Michigan',
+        'MN': 'Minnesota',
+        'MO': 'Missouri',
+        'MS': 'Mississippi',
+        'MT': 'Montana',
+        'NC': 'NorthCarolina',
+        'ND': 'NorthDakota',
+        'NE': 'Nebraska',
+        'NH': 'NewHampshire',
+        'NJ': 'NewJersey',
+        'NM': 'NewMexico',
+        'NV': 'Nevada',
+        'NY': 'NewYork',
+        'OH': 'Ohio',
+        'OK': 'Oklahoma',
+        'OR': 'Oregon',
+        'PA': 'Pennsylvania',
+        'RI': 'RhodeIsland',
+        'SC': 'SouthCarolina',
+        'SD': 'SouthDakota',
+        'TN': 'Tennessee',
+        'TX': 'Texas',
+        'UT': 'Utah',
+        'VA': 'Virginia',
+        'VT': 'Vermont',
+        'WA': 'Washington',
+        'WI': 'Wisconsin',
+        'WV': 'WestVirginia',
+        'WY': 'Wyoming'
+    }
     for state in states:
         get_state_data(state)
 
 
 # create a separate sheets instance per workbook, by number
-world = gsheets.Sheet(cred_file, scope, sheet_name, 1)
-china = gsheets.Sheet(cred_file, scope, sheet_name, 2)
-us = gsheets.Sheet(cred_file, scope, sheet_name, 3)
+world_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 1)
+china_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 2)
+us_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 3, state_data)
 
-_total = covid19_data.dataByName("Total")
-_china = covid19_data.dataByName("China")
-_US = covid19_data.dataByName("US")
+total = JHU.Total
+china = JHU.China
+US = JHU.US
 get_all_state_data()
 
 # write the scraped data to the appropriate Google Sheets
-world.write_data(_total.cases, _total.deaths, _total.recovered)
-china.write_data(_china.cases, _china.deaths, _china.recovered)
-us.write_data(_US.cases, _US.deaths, _US.recovered)
-us.write_state_data(state_data)
+world_sheet.write_data(total.cases, total.deaths, total.recovered)
+china_sheet.write_data(china.cases, china.deaths, china.recovered)
+us_sheet.write_data(US.cases, US.deaths, US.recovered)
+us_sheet.write_state_data(state_data)
 
 # cleanup / exit
 quit(0)
