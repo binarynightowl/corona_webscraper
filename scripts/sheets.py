@@ -1,22 +1,21 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from time import strftime
-from threading import Thread
+import covid19_data
 
 
 class Sheet:
 
-    def __init__(self, credentials, gapi_scope, sheet_name, workbook_num, state_dict=None):
+    def __init__(self, credentials, gapi_scope, sheet_name, workbook_name, state_dict=None):
         # create gsheets credentials
         self.credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials, gapi_scope)
         self.sheet_name = sheet_name
-        self.workbook_num = workbook_num - 1
         # create gsheets client
         self.client = gspread.authorize(self.credentials)
         self.state_dict = state_dict
 
         document = self.client.open(self.sheet_name)
-        self.sheet = document.get_worksheet(self.workbook_num)
+        self.sheet = document.worksheet(workbook_name)
 
         # Scan for the total number of rows and set the current row to 1 longer
         self.current_line = self.sheet.row_count
@@ -28,8 +27,14 @@ class Sheet:
     def getColumnIndex(self, name):
         return self.column_headers.index(name) + 1
 
-    def write_data(self, cases, deaths, recovered, state_data=None):
-        active = (cases - deaths) - recovered
+    def write_data(self, cases=None, deaths=None, recovered=None, state_data=None, country_list=None):
+        if cases and deaths and recovered is not None:
+            active = (cases - deaths) - recovered
+        else:
+            active = 1
+            cases = 1
+            deaths = 1
+            recovered = 1
         current_time = strftime("%Y-%m-%d %H:%M:%S")
 
         headers = {
@@ -48,6 +53,13 @@ class Sheet:
             for state in self.state_dict:
                 headers.update({state: state_data[state]})
                 sum51 += state_data[state]
+        else:
+            pass
+
+        if country_list is not None:
+            for country in country_list:
+                data = covid19_data.dataByName(country)
+                headers.update({country: data.confirmed})
         else:
             pass
 
