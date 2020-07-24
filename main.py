@@ -1,6 +1,7 @@
 import scripts.sheets as gsheets
 from covid19_data import JHU
 import covid19_data
+from threading import Thread
 
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']  # use these APIs
 cred_file = 'client-secret.json'  # client secret file, do not make this file public!
@@ -75,21 +76,40 @@ def get_all_state_data():
         get_state_data(state)
 
 
-# create a separate sheets instance per workbook, by number
-world_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 1)
-china_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 2)
-us_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 3, state_data)
+def write_world_data():
+    world_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 1)
+    total = JHU.Total
+    world_sheet.write_data(total.cases, total.deaths, total.recovered)
 
-total = JHU.Total
-china = JHU.China
-US = JHU.US
-get_all_state_data()
 
-# write the scraped data to the appropriate Google Sheets
-world_sheet.write_data(total.cases, total.deaths, total.recovered)
-china_sheet.write_data(china.cases, china.deaths, china.recovered)
-us_sheet.write_data(US.cases, US.deaths, US.recovered)
-us_sheet.write_state_data(state_data)
+def write_china_data():
+    china_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 2)
+    china = JHU.China
+    china_sheet.write_data(china.cases, china.deaths, china.recovered)
 
+
+def write_us_data():
+    us_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 3, state_data)
+    us = JHU.US
+    get_all_state_data()
+    us_sheet.write_data(us.cases, us.deaths, us.recovered, state_data)
+    # us_sheet.write_state_data(state_data)
+
+
+def write_all_data():
+    t1 = Thread(target=write_world_data)
+    t2 = Thread(target=write_china_data)
+    t3 = Thread(target=write_us_data)
+
+    t1.start()
+    t2.start()
+    t3.start()
+
+    t1.join()
+    t2.join()
+    t3.join()
+
+
+write_all_data()
 # cleanup / exit
 quit(0)

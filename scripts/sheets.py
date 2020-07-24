@@ -1,6 +1,7 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from time import strftime
+from threading import Thread
 
 
 class Sheet:
@@ -27,15 +28,10 @@ class Sheet:
     def getColumnIndex(self, name):
         return self.column_headers.index(name) + 1
 
-    def write_state_data(self, state_data):
-        for state in self.state_dict:
-            self.sheet.update_cell(self.row_to_write, self.column_headers.index(state) + 1, state_data[state])
-
-    def write_data(self, cases, deaths, recovered):
+    def write_data(self, cases, deaths, recovered, state_data=None):
         active = (cases - deaths) - recovered
         current_time = strftime("%Y-%m-%d %H:%M:%S")
 
-        self.sheet.resize(self.row_to_write)
         headers = {
             "Date": current_time,
             "Cases": cases,
@@ -45,8 +41,33 @@ class Sheet:
             "pDeaths": deaths / cases,
             "pRecovered": recovered / cases,
             "pActive": active / cases,
-            "R/D": recovered / deaths
+            "R/D": recovered / deaths,
         }
+        sum51 = 0
+        if state_data is not None:
+            for state in self.state_dict:
+                headers.update({state: state_data[state]})
+                sum51 += state_data[state]
+        else:
+            pass
+
+        headers.update({"51 Sum": sum51})
+        location = {}
 
         for item in headers:
-            self.sheet.update_cell(self.row_to_write, self.getColumnIndex(item), str(headers[item]))
+            try:
+                location.update({self.getColumnIndex(item): item})
+            except ValueError:
+                pass
+
+        max_index = range(1, self.sheet.col_count + 1)
+
+        row_to_write = []
+
+        for column in max_index:
+            try:
+                row_to_write.append(headers[location[column]])
+            except KeyError:
+                row_to_write.append('')
+
+        self.sheet.append_row(row_to_write, table_range='A1')
