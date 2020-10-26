@@ -284,6 +284,7 @@ def write_countries_data():
                  'YEMEN',
                  'ZAMBIA',
                  'ZIMBABWE']
+    countries.sort()
     countries_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 'Countries', state_data)
     countries_sheet.write_data(country_list=countries)
 

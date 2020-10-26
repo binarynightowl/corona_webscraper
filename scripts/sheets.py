@@ -64,6 +64,11 @@ class Sheet:
             pass
 
         headers.update({"51 Sum": sum51})
+        if sum51 != 0:
+            headers.update({"51 Sum Diff": cases - sum51})
+            headers.update({"p51 Diff": (((cases / sum51) - (sum51 / cases)) / 2)})
+        else:
+            pass
         location = {}
 
         for item in headers:
