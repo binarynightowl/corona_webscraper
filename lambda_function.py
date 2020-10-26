@@ -3,9 +3,10 @@ import scripts.sheets as gsheets
 from covid19_data import JHU
 import covid19_data
 from threading import Thread
+import os
 
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']  # use these APIs
-cred_file = 'client-secret.json'  # client secret file, do not make this file public!
+cred_file = os.environ['secret']  # client secret file, do not make this file public!
 sheet_name = "COVID-19-CasesOverTime"  # what google sheet to use
 
 state_data = {
