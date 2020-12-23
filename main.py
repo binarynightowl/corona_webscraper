@@ -2,6 +2,7 @@ import scripts.sheets as gsheets
 from covid19_data import JHU
 import covid19_data
 from threading import Thread
+import pandas as pd
 
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']  # use these APIs
 cred_file = 'client-secret.json'  # client secret file, do not make this file public!
@@ -92,6 +93,7 @@ def write_us_data():
     us_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 'US', state_data)
     us = JHU.US
     get_all_state_data()
+    print(us.cases)
     us_sheet.write_data(us.cases, us.deaths, us.recovered, state_data)
 
 
