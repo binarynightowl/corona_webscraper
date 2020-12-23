@@ -82,7 +82,10 @@ class Sheet:
         self.sheet.append_row(row_to_write, table_range='A1')
 
     def calculate(self, cases=None, deaths=None, recovered=None, state_data=None, country_list=None):
-        if cases and deaths and recovered is not None:
+        if recovered is None:
+            recovered = 0
+
+        if cases and deaths is not None:
             active = (cases - deaths) - recovered
         else:
             active = 1
