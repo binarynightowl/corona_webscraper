@@ -292,20 +292,20 @@ def write_countries_data():
 
 
 def write_all_data():
-    t1 = Thread(target=write_world_data)
-    t2 = Thread(target=write_china_data)
+    # t1 = Thread(target=write_world_data)
+    # t2 = Thread(target=write_china_data)
     t3 = Thread(target=write_us_data)
-    t4 = Thread(target=write_countries_data)
+    # t4 = Thread(target=write_countries_data)
 
-    t1.start()
-    t2.start()
+    # t1.start()
+    # t2.start()
     t3.start()
-    t4.start()
+    # t4.start()
 
-    t1.join()
-    t2.join()
+    # t1.join()
+    # t2.join()
     t3.join()
-    t4.join()
+    # t4.join()
 
 
 write_all_data()
