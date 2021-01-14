@@ -93,7 +93,6 @@ def write_us_data():
     us_sheet = gsheets.Sheet(cred_file, scope, sheet_name, 'US', state_data)
     us = JHU.US
     get_all_state_data()
-    print(us.cases)
     us_sheet.write_data(us.cases, us.deaths, us.recovered, state_data)
 
 

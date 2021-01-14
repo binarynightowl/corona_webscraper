@@ -2,8 +2,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from time import strftime
 import covid19_data
-import pandas as pd
-import matplotlib.pyplot as plt
+# import pandas as pd
+# import matplotlib.pyplot as plt
 import re
 from datetime import datetime as dtime
 
@@ -51,7 +51,7 @@ class Sheet:
         previous_row = self.all_data[-1]
         return previous_row
 
-    def getColumnIndex(self, name):
+    def get_column_index(self, name):
         return self.column_headers.index(name) + 1
 
     def get_timestamps(self):
@@ -59,27 +59,6 @@ class Sheet:
         current_timestamp = dtime.timestamp(dtime.strptime(current_time, "%Y-%m-%d %H:%M:%S"))
         previous_timestamp = dtime.timestamp(dtime.strptime(self.previous_row["Date"], "%Y-%m-%d %H:%M:%S"))
         return current_timestamp, previous_timestamp, current_time
-
-    def write_data(self, cases=None, deaths=None, recovered=None, state_data=None, country_list=None):
-        headers = self.calculate(cases, deaths, recovered, state_data, country_list)
-        location = {}
-
-        for item in headers:
-            try:
-                location.update({self.getColumnIndex(item): item})
-            except ValueError:
-                pass
-
-        max_index = range(1, self.sheet.col_count + 1)
-
-        row_to_write = []
-
-        for column in max_index:
-            try:
-                row_to_write.append(headers[location[column]])
-            except KeyError:
-                row_to_write.append('')
-        self.sheet.append_row(row_to_write, table_range='A1')
 
     def calculate(self, cases=None, deaths=None, recovered=None, state_data=None, country_list=None):
         if recovered is None:
@@ -153,3 +132,24 @@ class Sheet:
 
         self.all_data.append(headers)
         return headers
+
+    def write_data(self, cases=None, deaths=None, recovered=None, state_data=None, country_list=None):
+        headers = self.calculate(cases, deaths, recovered, state_data, country_list)
+        location = {}
+
+        for item in headers:
+            try:
+                location.update({self.get_column_index(item): item})
+            except ValueError:
+                pass
+
+        max_index = range(1, self.sheet.col_count + 1)
+
+        row_to_write = []
+
+        for column in max_index:
+            try:
+                row_to_write.append(headers[location[column]])
+            except KeyError:
+                row_to_write.append('')
+        self.sheet.append_row(row_to_write, table_range='A1')
