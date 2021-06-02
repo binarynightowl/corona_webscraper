@@ -10,7 +10,7 @@ pyasn1==0.4.8
 requests==2.24.0
 rsa==4.6
 six==1.15.0
-urllib3==1.25.11
+urllib3==1.26.5
 
 pandas>=1.1.5
 matplotlib>=3.3.3
